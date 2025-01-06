@@ -1,0 +1,27 @@
+version: '2.4'
+
+services:
+  # Zipkin Servisi
+  zipkin:
+    image: ghcr.io/openzipkin/zipkin-slim:${TAG:-latest}
+    container_name: zipkin
+    environment:
+      - STORAGE_TYPE=mem
+    ports:
+      - 9411:9411
+
+  # ActiveMQ Servisi
+  activemq:
+    image: rmohr/activemq:latest
+    container_name: activemq
+    environment:
+      # ActiveMQ için yönetici kullanıcı adı ve şifre
+      ACTIVEMQ_ADMIN_LOGIN: admin
+      ACTIVEMQ_ADMIN_PASSWORD: admin
+      ACTIVEMQ_MIN_MEMORY: 512
+      ACTIVEMQ_MAX_MEMORY: 1024
+    ports:
+      # ActiveMQ'nin web konsolu için
+      - 8161:8161
+      # ActiveMQ'nin TCP bağlantı noktası
+      - 61616:61616
